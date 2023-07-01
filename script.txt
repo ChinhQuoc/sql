@@ -1,0 +1,26 @@
+CREATE DATABASE exercises;
+USE exercises;
+
+-- UNSIGNED: prevent negative numbers
+CREATE TABLE student (
+	id int auto_increment,
+	full_name VARCHAR(255) NOT NULL,
+	gender VARCHAR(10),
+	age int UNSIGNED,
+	city VARCHAR(50),
+	weight FLOAT(5, 2) UNSIGNED,
+	
+	primary key(id)
+);
+
+INSERT INTO student(
+	full_name, gender, age, city, weight
+) VALUES (
+	"Anna Johnson", "female", 35, "Los Angeles", 54.56
+)
+
+INSERT INTO student(
+	full_name, gender, age, city, weight
+) VALUES (
+	"Nguyễn Văn An", "male", 15, "Hồ Chí Minh", 60.00
+)
