@@ -1,0 +1,665 @@
+CREATE DATABASE assignment2;
+USE assignment2;
+
+CREATE TABLE sanpham(
+	id int auto_increment,
+	ten varchar(255),
+	gianhap DECIMAL(12) UNSIGNED DEFAULT 0.000,
+	giaban DECIMAL(12) UNSIGNED DEFAULT 0.000,
+	soluong INT UNSIGNED DEFAULT(0),
+	giamgia INT(3) UNSIGNED DEFAULT(0),
+	id_nhacungcap INT,
+	
+	primary key(id)
+);
+
+CREATE TABLE nhacungcap(
+	id int auto_increment,
+	ten varchar(255) unique,
+	
+	primary key(id)
+);
+
+ALTER TABLE sanpham ADD CONSTRAINT FK_id_nhacungcap_sanpham 
+FOREIGN KEY(id_nhacungcap) REFERENCES nhacungcap(id);
+
+INSERT INTO nhacungcap (ten) VALUES('SAMSUNG');
+INSERT INTO nhacungcap (ten) VALUES('APPLE');
+INSERT INTO nhacungcap (ten) VALUES('HUAWEI');
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy S22',
+	9000000,
+	12000000,
+	12,
+	0,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy Z Flip4',
+	10000000,
+	15000000,
+	40,
+	5,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy S23 Ultra',
+	20000000,
+	24000000,
+	78,
+	5,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy Z Fold4',
+	25000000,
+	29000000,
+	72,
+	0,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy A04s',
+	1000000,
+	3400000,
+	28,
+	0,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy A14',
+	1000000,
+	3700000,
+	95,
+	0,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy A34',
+	5000000,
+	7400000,
+	27,
+	0,
+	1
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Samsung Galaxy A34',
+	7000000,
+	8990000,
+	12,
+	0,
+	1
+);
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 14 Pro Max',
+	24000000,
+	26500000,
+	75,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 14 Pro',
+	22000000,
+	24600000,
+	41,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 14 Plus',
+	20000000,
+	21300000,
+	25,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 14',
+	18000000,
+	19100000,
+	47,
+	5,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 13',
+	14000000,
+	16700000,
+	90,
+	10,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 12',
+	13000000,
+	14900000,
+	150,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone 11',
+	8000000,
+	10400000,
+	30,
+	5,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'iPhone XR',
+	6000000,
+	8900000,
+	90,
+	0,
+	2
+);
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Huawei Nova 10',
+	10000000,
+	15000000,
+	30,
+	0,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Huawei P30 Lite',
+	5000000,
+	7400000,
+	20,
+	0,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Huawei Nova Y60',
+	8000000,
+	10000000,
+	43,
+	0,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Huawei P30',
+	16000000,
+	18000000,
+	20,
+	0,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'Huawei P30 Pro',
+	22900000,
+	24500000,
+	10,
+	0,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'A23 ìdsgg',
+	1900000,
+	2500000,
+	15,
+	0,
+	1
+);
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'A23 sam sung rg45',
+	23900000,
+	25500000,
+	5,
+	0,
+	1
+);
+
+UPDATE sanpham sp SET sp.ten = 'A23 samsung rg45' WHERE sp.id = 23;
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'MacBook Air M1 2020',
+	15000000,
+	18300000,
+	60,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'MacBook Air M2 2022',
+	24000000,
+	27300000,
+	24,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'MacBook Pro 16 2023 M2 Pro',
+	55000000,
+	59000000,
+	10,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'MacBook Pro 16 2021 M1 Pro',
+	45000000,
+	48990000,
+	10,
+	0,
+	2
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap
+) VALUES(
+	'MacBook Pro 14 2023 M2 Pro',
+	44000000,
+	47990000,
+	15,
+	0,
+	2
+);
+
+CREATE TABLE loaisanpham(
+	id int auto_increment,
+	loai varchar(50) UNIQUE NOT NULL,
+	
+	primary key(id)
+);
+
+INSERT INTO loaisanpham(loai) VALUES('phone');
+INSERT INTO loaisanpham(loai) VALUES('laptop');
+INSERT INTO loaisanpham(loai) VALUES('tablet');
+
+ALTER TABLE sanpham ADD id_loaisanpham int default(1);
+
+ALTER TABLE sanpham ADD CONSTRAINT FK_id_loaisanpham_sanpham FOREIGN KEY(id_loaisanpham) REFERENCES loaisanpham(id);
+
+UPDATE sanpham sp
+SET sp.id_loaisanpham = 2
+WHERE LOCATE('MacBook', sp.ten)>0;
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'iPad 10.2 2021',
+	5000000,
+	7090000,
+	25,
+	0,
+	2,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'iPad Air 5 2022',
+	12000000,
+	14090000,
+	15,
+	0,
+	2,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'iPad Pro 11 inch 2022 M2',
+	18000000,
+	20590000,
+	10,
+	0,
+	2,
+	3
+);
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Samsung Galaxy Tab S8',
+	10000000,
+	11990000,
+	20,
+	0,
+	1,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Samsung Galaxy Tab S8 Ultra',
+	24000000,
+	25990000,
+	10,
+	0,
+	1,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Samsung Galaxy Tab A7 Lite',
+	2000000,
+	3990000,
+	12,
+	0,
+	1,
+	3
+);
+
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Huawei MatePad SE 10.4',
+	4000000,
+	5490000,
+	15,
+	0,
+	3,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Huawei Matepad 2022 4GB',
+	4500000,
+	5990000,
+	20,
+	0,
+	3,
+	3
+);
+INSERT INTO sanpham(
+	ten,
+	gianhap,
+	giaban,
+	soluong,
+	giamgia,
+	id_nhacungcap,
+	id_loaisanpham
+) VALUES(
+	'Huawei MatePad C7',
+	13000000,
+	15990000,
+	10,
+	0,
+	3,
+	3
+);
+
+-- 1.1
+SELECT * FROM sanpham;
+
+-- 1.2
+SELECT sp.id, sp.ten, sp.gianhap, sp.giaban, sp.soluong, sp.giamgia FROM sanpham sp;
+
+-- 1.3
+SELECT sp.id, sp.ten, sp.gianhap, sp.giaban FROM sanpham sp WHERE sp.soluong > 60;
+
+-- 1.4
+SELECT * FROM sanpham ORDER BY id DESC LIMIT 3;
+
+-- 1.5
+SELECT sp.id, sp.ten FROM sanpham sp WHERE LOCATE('Samsung', sp.ten)>0;
+
+-- 1.6
+SELECT sp.id, sp.ten, sp.giaban FROM sanpham sp WHERE LOCATE('MacBook', sp.ten)>0 AND sp.giaban > 7000000;
+
+-- 1.7
+SELECT sp.id, sp.ten, sp.giaban FROM sanpham sp WHERE (sp.giaban >= 8000000 AND sp.giaban <= 10000000);
+
+-- 2.1
+SELECT sp.id, sp.ten, sp.gianhap, sp.giaban, sp.soluong, ncc.ten AS 'ncc' 
+FROM sanpham sp JOIN nhacungcap ncc ON sp.id_nhacungcap = ncc.id 
+ORDER BY ncc.id ASC;
+
+-- 2.2
+SELECT sp.id, sp.ten, sp.gianhap, sp.giaban, sp.soluong, ncc.id AS 'ma ncc', ncc.ten AS 'ncc' 
+FROM sanpham sp JOIN nhacungcap ncc ON sp.id_nhacungcap = ncc.id
+WHERE sp.giaban > 5000000
+ORDER BY ncc.id ASC;
+
+-- 2.3
+SELECT sp.id, sp.ten FROM sanpham sp WHERE sp.id_loaisanpham = 3;
