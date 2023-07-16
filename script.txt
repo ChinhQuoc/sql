@@ -1,0 +1,81 @@
+CREATE DATABASE assignment3;
+USE assignment3;
+
+CREATE TABLE role(
+	id int auto_increment,
+	name varchar(255) unique,
+	description text,
+	
+	primary key(id)
+);
+
+CREATE TABLE user(
+	id int auto_increment,
+	email varchar(255) NOT NULL unique,
+	password varchar(255) NOT NULL,
+	firstName varchar(255),
+	lastName varchar(255),
+	userName varchar(255) unique,
+	fullName varchar(255),
+	phone varchar(255),
+	image varchar(255),
+	id_role int,
+	
+	primary key(id)
+);
+
+CREATE TABLE project(
+	id int auto_increment,
+	name varchar(255) NOT NULL unique,
+	startDate DATE DEFAULT (CURRENT_DATE),
+	endDate DATE DEFAULT (CURRENT_DATE),
+	
+	primary key(id)
+);
+
+CREATE TABLE job(
+	id int auto_increment,
+	name varchar(255) NOT NULL,
+	content varchar(255),
+	startDate DATE DEFAULT (CURRENT_DATE),
+	endDate DATE DEFAULT (CURRENT_DATE),
+	id_project int,
+	
+	primary key(id)
+);
+
+CREATE TABLE project_user(
+	id_user int,
+	id_project int,
+	createDate DATE DEFAULT (CURRENT_DATE),
+	
+	primary key(id_user, id_project)
+);
+
+CREATE TABLE status(
+	id int auto_increment,
+	name varchar(255) NOT NULL unique,
+	
+	primary key(id)
+);
+
+CREATE TABLE job_status_user(
+	id_job int,
+	id_status int,
+	id_user int,
+	createDate DATE DEFAULT (CURRENT_DATE),
+	
+	primary key(id_job, id_status, id_user)
+);
+
+
+ALTER TABLE user ADD CONSTRAINT FK_id_role_user FOREIGN KEY(id_role) REFERENCES role(id);
+
+ALTER TABLE project_user ADD CONSTRAINT FK_id_user_project_user FOREIGN KEY(id_user) REFERENCES user(id);
+ALTER TABLE project_user ADD CONSTRAINT FK_id_project_project_user FOREIGN KEY(id_project) REFERENCES project(id);
+
+ALTER TABLE job ADD CONSTRAINT FK_id_project_job FOREIGN KEY(id_project) REFERENCES project(id);
+
+ALTER TABLE job_status_user ADD CONSTRAINT FK_id_job_job_status_user FOREIGN KEY(id_job) REFERENCES job(id);
+ALTER TABLE job_status_user ADD CONSTRAINT FK_id_status_job_status_user FOREIGN KEY(id_status) REFERENCES status(id);
+ALTER TABLE job_status_user ADD CONSTRAINT FK_id_user_job_status_user FOREIGN KEY(id_user) REFERENCES user(id);
