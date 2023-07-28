@@ -1,0 +1,91 @@
+CREATE DATABASE assignment4;
+USE assignment4;
+
+CREATE TABLE tuasach(
+	id int auto_increment,
+	tuasach nvarchar(500) NOT NULL,
+	tacgia nvarchar(200) NOT NULL,
+	tomtat text,
+	
+	primary key(id)
+);
+
+CREATE TABLE dausach(
+	id int auto_increment,
+	ngonngu nvarchar(500),
+	bia nvarchar(500),
+	trangthai nvarchar(100) DEFAULT('chưa hoàn thành'),
+	id_tuasach int,
+	
+	primary key(id)
+);
+
+CREATE TABLE cuonsach(
+	id_dausach int,
+	tinhtrang nvarchar(100) DEFAULT('chưa xuất bản'),
+	
+	primary key(id_dausach)
+);
+
+CREATE TABLE muonsach(
+	id_dausach int,
+	tongso int DEFAULT(0),
+	soluongconlai int DEFAULT(0),
+	
+	primary key(id_dausach)
+);
+
+ALTER TABLE dausach ADD CONSTRAINT FK_id_tuasach_dausach FOREIGN KEY(id_tuasach) REFERENCES tuasach(id);
+ALTER TABLE cuonsach ADD CONSTRAINT FK_id_dausach_cuonsach FOREIGN KEY(id_dausach) REFERENCES dausach(id);
+ALTER TABLE muonsach ADD CONSTRAINT FK_id_dausach_muonsach FOREIGN KEY(id_dausach) REFERENCES dausach(id);
+
+INSERT INTO tuasach(tuasach, tacgia) VALUES('Truyện tranh Doremon', 'Fujiko F. Fujio');
+INSERT INTO tuasach(tuasach, tacgia) VALUES('Harry Potter', 'J. K. Rowling');
+INSERT INTO tuasach(tuasach, tacgia) VALUES('Tây du ký', 'Ngô Thừa Ân');
+
+INSERT INTO dausach(ngonngu, trangthai, id_tuasach) VALUES('tiếng Việt', 'hoàn thành', 1);
+INSERT INTO dausach(ngonngu, id_tuasach) VALUES('tiếng Anh', 1);
+INSERT INTO dausach(ngonngu, id_tuasach) VALUES('tiếng Việt', 2);
+INSERT INTO dausach(ngonngu, trangthai, id_tuasach) VALUES('tiếng Anh', 'hoàn thành', 2);
+INSERT INTO dausach(ngonngu, trangthai, id_tuasach) VALUES('tiếng Việt', 'hoàn thành', 3);
+INSERT INTO dausach(ngonngu, trangthai, id_tuasach) VALUES('tiếng Anh', 'hoàn thành', 3);
+
+INSERT INTO cuonsach(tinhtrang, id_dausach) VALUES('đã xuất bản', 1);
+INSERT INTO cuonsach(id_dausach) VALUES(2);
+INSERT INTO cuonsach(id_dausach) VALUES(3);
+INSERT INTO cuonsach(tinhtrang, id_dausach) VALUES('đã xuất bản', 4);
+INSERT INTO cuonsach(tinhtrang, id_dausach) VALUES('đã xuất bản', 5);
+INSERT INTO cuonsach(tinhtrang, id_dausach) VALUES('đã xuất bản', 6);
+
+INSERT INTO muonsach(tongso, soluongconlai, id_dausach) VALUES(200, 50, 1);
+INSERT INTO muonsach(tongso, soluongconlai, id_dausach) VALUES(350, 120, 4);
+INSERT INTO muonsach(tongso, soluongconlai, id_dausach) VALUES(300, 20, 5);
+INSERT INTO muonsach(tongso, soluongconlai, id_dausach) VALUES(200, 35, 6);
+INSERT INTO muonsach(id_dausach) VALUES(2);
+INSERT INTO muonsach(id_dausach) VALUES(3);
+
+-- 1
+CREATE PROCEDURE sp_getAllTuaSach()
+BEGIN
+	SELECT * FROM tuasach;
+END
+CALL sp_getAllTuaSach();
+
+-- 2
+CREATE PROCEDURE sp_getAllDauSachAndTuaSach()
+BEGIN
+	SELECT ts.id AS 'id tựa sách', ts.tacgia, ts.tuasach, ds.id AS 'id đầu sách', ds.ngonngu, ds.trangthai 
+	FROM dausach ds JOIN tuasach ts 
+	ON ts.id = ds.id_tuasach;
+END
+CALL sp_getAllDauSachAndTuaSach();
+
+-- 3
+CREATE PROCEDURE sp_getAllDauSachTuaSachAndSLSachChuaMuon()
+BEGIN
+	SELECT ts.id AS 'id tựa sách', ts.tacgia, ts.tuasach, ds.id AS 'id đầu sách', ds.ngonngu, ds.trangthai, ms.soluongconlai
+	FROM dausach ds
+		JOIN tuasach ts ON ts.id = ds.id_tuasach
+		JOIN muonsach ms ON ms.id_dausach = ds.id;
+END
+CALL sp_getAllDauSachTuaSachAndSLSachChuaMuon();
