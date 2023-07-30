@@ -49,10 +49,10 @@ INSERT INTO khachhang (tenKH, diaChi, dienThoai, email)
 VALUES('Trần Văn Toàn', 'Tuy Phước', '094319856', 'vantoan@gmail.com');
 INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH)
 VALUES('Trần Văn Ẩn', 'Quy Nhơn', '090094567', 'VIP');
-INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH, gioiTinh) 
-VALUES('Nguyễn Văn An', 'Tuy Phước', '09123123564', 'VIP', 'nam');
-INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH, gioiTinh) 
-VALUES('Nguyễn Văn An', 'Tuy Phước', '09123123564', 'VIP', 'nam');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH) 
+VALUES('Nguyễn Văn An', 'Tuy Phước', '09123123564', 'VIP');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai) 
+VALUES('Nguyễn Thanh Phúc', 'Quy Nhơn', '09453789324');
 
 INSERT INTO hanghoa (tenH, donViTinh, dongia)
 VALUES('Sữa đặc ông thọ', 'lon', 23000);
@@ -107,8 +107,9 @@ ALTER TABLE khachhang ADD gioiTinh nvarchar(50) DEFAULT('nữ');
 
 UPDATE khachhang SET gioiTinh = 'nam' WHERE id = 3;
 UPDATE khachhang SET gioiTinh = 'nam' WHERE id = 4;
+UPDATE khachhang SET gioiTinh = 'nam' WHERE id = 5;
 
-SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang; 
+SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang;
 
 -- 3
 SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang 
@@ -116,10 +117,10 @@ WHERE STRCMP(gioiTinh, 'nữ') = 0 AND STRCMP(diaChi, 'Quy Nhơn') = 0;
 
 -- 4
 SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang 
-WHERE STRCMP(loaiKH, 'VIP') = 0 AND (STRCMP(diaChi, 'Quy Nhơn') = 0 OR STRCMP(diaChi, 'Tuy Phước')); 
+WHERE STRCMP(loaiKH, 'VIP') = 0 AND (STRCMP(diaChi, 'Quy Nhơn') = 0 OR STRCMP(diaChi, 'Tuy Phước') = 0); 
 
 -- 5
-SELECT COUNT(*) FROM hoadon WHERE MONTH(ngayLapHD) = 8;
+SELECT COUNT(*) AS soluong FROM hoadon WHERE MONTH(ngayLapHD) = 8;
 
 -- 6
 SELECT * FROM hanghoa WHERE dongia >= 20000 AND dongia <= 50000;
@@ -132,12 +133,18 @@ SELECT cthh.id_hoadon, cthh.id_hanghoa, hh.tenH, hh.dongia, cthh.soluong, (cthh.
 FROM chitiethd cthh JOIN hanghoa hh ON cthh.id_hanghoa = hh.id WHERE cthh.id_hoadon = 1;
 
 -- 9
-SELECT cthh.id_hoadon, cthh.id_hanghoa, hh.tenH, hh.dongia, cthh.soluong, (cthh.soluong * hh.dongia) AS 'thanh tien'
-FROM chitiethd cthh JOIN hanghoa hh ON cthh.id_hanghoa = hh.id WHERE (cthh.soluong * hh.dongia) >= 1000000 AND (cthh.soluong * hh.dongia) <= 2000000;
+CREATE VIEW view_layThanhTien AS
+	SELECT cthd.id_hoadon, cthd.id_hanghoa, cthd.soluong, (cthd.soluong * hh.dongia) AS thanhtien
+	FROM chitiethd cthd
+	JOIN hanghoa hh ON cthd.id_hanghoa = hh.id;
+
+SELECT tt.id_hoadon, tt.id_hanghoa, hh.tenH, hh.dongia, tt.soluong, tt.thanhtien
+FROM view_layThanhTien tt JOIN hanghoa hh ON tt.id_hanghoa = hh.id
+WHERE tt.thanhtien >= 1000000 AND tt.thanhtien <= 2000000;
 
 -- 10
-SELECT DISTINCT(kh.id), kh.tenKH, kh.diaChi, kh.dienThoai, kh.email, kh.loaiKH
-FROM khachhang kh JOIN hoadon hd ON kh.id = hd.id_khachhang WHERE MONTH(hd.ngayLapHD) != 6;
+SELECT * FROM khachhang
+	WHERE id NOT IN (SELECT id_khachhang FROM hoadon WHERE MONTH(ngayLapHD) = 6);
 
 -- 11
 SELECT hd.id AS 'ma hoa don', hd.ngayLapHD, hd.id_khachhang, hh.tenH, hh.dongia, cthd.soluong, (cthd.soluong * hh.dongia) AS 'thanh tien'
@@ -147,17 +154,13 @@ JOIN hanghoa hh ON cthd.id_hanghoa = hh.id
 WHERE MONTH(hd.ngayLapHD) = 6;
 
 -- 12
-SELECT DISTINCT(hh.id), hh.tenH, hh.donViTinh, hh.dongia
+SELECT hh.id, hh.tenH, hh.donViTinh, hh.dongia
 FROM chitiethd cthd
 JOIN hoadon hd ON cthd.id_hoadon = hd.id
-JOIN hanghoa hh ON cthd.id_hanghoa = hh.id;
+JOIN hanghoa hh ON cthd.id_hanghoa = hh.id
+GROUP BY hh.id;
 
 -- 13
-CREATE VIEW view_layThanhTien AS
-	SELECT cthd.id_hoadon, (cthd.soluong * hh.dongia) AS thanhtien
-	FROM chitiethd cthd
-	JOIN hanghoa hh ON cthd.id_hanghoa = hh.id;
-
 CREATE VIEW view_layTongTienMoiHoaDon AS
 	SELECT id_hoadon, SUM(thanhtien) AS tongtien 
 	FROM view_layThanhTien GROUP BY id_hoadon;
