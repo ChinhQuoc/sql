@@ -1,0 +1,189 @@
+CREATE DATABASE assignment5;
+USE assignment5;
+
+CREATE TABLE khachhang(
+	id int auto_increment,
+	tenKH nvarchar(500) NOT NULL,
+	diaChi nvarchar(200),
+	dienThoai varchar(255) NOT NULL,
+	email varchar(255) unique,
+	loaiKH varchar(10) DEFAULT('TV'),
+	
+	primary key(id)
+);
+
+CREATE TABLE hoadon(
+	id int auto_increment,
+	ngayLapHD DATE DEFAULT(CURRENT_DATE),
+	id_khachhang int,
+	
+	primary key(id)
+);
+
+CREATE TABLE hanghoa(
+	id int auto_increment,
+	tenH nvarchar(500) NOT NULL,
+	donViTinh nvarchar(50) DEFAULT('hộp'),
+	dongia DECIMAL(12) UNSIGNED DEFAULT 0.000,
+	
+	primary key(id)
+);
+
+CREATE TABLE chitiethd( 
+	id_hoadon int,
+	id_hanghoa int,
+	soluong int DEFAULT(0),
+	
+	primary key(id_hoadon, id_hanghoa)
+);
+
+ALTER TABLE hoadon ADD CONSTRAINT FK_id_khachhang_hoadon FOREIGN KEY(id_khachhang) REFERENCES khachhang(id);
+ALTER TABLE chitiethd ADD CONSTRAINT FK_id_hoadon_chitiethd FOREIGN KEY(id_hoadon) REFERENCES hoadon(id);
+ALTER TABLE chitiethd ADD CONSTRAINT FK_id_hanghoa_chitiethd FOREIGN KEY(id_hanghoa) REFERENCES hanghoa(id);
+
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, email, loaiKH) 
+VALUES('Nguyễn Thị Mai Chi', 'Quy Nhơn', '09123123567', 'maichi@gmail.com', 'VIP');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai) 
+VALUES('Phan Thị Thanh', 'Quy Nhơn', '094598607');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, email)
+VALUES('Trần Văn Toàn', 'Tuy Phước', '094319856', 'vantoan@gmail.com');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH)
+VALUES('Trần Văn Ẩn', 'Quy Nhơn', '090094567', 'VIP');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH, gioiTinh) 
+VALUES('Nguyễn Văn An', 'Tuy Phước', '09123123564', 'VIP', 'nam');
+INSERT INTO khachhang (tenKH, diaChi, dienThoai, loaiKH, gioiTinh) 
+VALUES('Nguyễn Văn An', 'Tuy Phước', '09123123564', 'VIP', 'nam');
+
+INSERT INTO hanghoa (tenH, donViTinh, dongia)
+VALUES('Sữa đặc ông thọ', 'lon', 23000);
+INSERT INTO hanghoa (tenH, donViTinh, dongia)
+VALUES('Kem dẻo Hồng Hà', 'gói', 80000);
+INSERT INTO hanghoa (tenH, dongia)
+VALUES('Bánh xốp Quy Kinh đô', 120000);
+INSERT INTO hanghoa (tenH, dongia)
+VALUES('Bánh quy LuXy', 150000);
+INSERT INTO hanghoa (tenH, donViTinh, dongia)
+VALUES('Đường trắng Quy Hòa', 'gói', 20000);
+INSERT INTO hanghoa (tenH, dongia)
+VALUES('Bánh quy LuXy Sài Gòn', 100000);
+INSERT INTO hanghoa (tenH, donViTinh, dongia)
+VALUES('Sữa tươi TH TrueMilk', 'lốc', 30000);
+
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(1, '2023-06-23');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(1, '2023-02-24');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(2, '2023-03-21');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(2, '2023-02-09');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(3, '2023-06-02');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(4, '2023-05-02');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(3, '2023-05-03');
+INSERT INTO hoadon (id_khachhang, ngayLapHD) 
+VALUES(3, '2023-05-04');
+
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(1, 1, 1);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(1, 2, 3);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(2, 3, 12);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(2, 4, 2);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(3, 1, 7);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(3, 4, 5);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(4, 1, 12);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(5, 3, 20);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(5, 5, 19);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(6, 7, 20);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(6, 3, 45);
+INSERT INTO chitiethd (id_hoadon, id_hanghoa, soluong) VALUES(7, 2, 60);
+
+-- 1
+ALTER TABLE khachhang ADD ngaySinh DATE;
+
+-- 2
+ALTER TABLE khachhang ADD gioiTinh nvarchar(50) DEFAULT('nữ');
+
+UPDATE khachhang SET gioiTinh = 'nam' WHERE id = 3;
+UPDATE khachhang SET gioiTinh = 'nam' WHERE id = 4;
+
+SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang; 
+
+-- 3
+SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang 
+WHERE STRCMP(gioiTinh, 'nữ') = 0 AND STRCMP(diaChi, 'Quy Nhơn') = 0; 
+
+-- 4
+SELECT id, tenKH, ngaySinh, gioiTinh FROM khachhang 
+WHERE STRCMP(loaiKH, 'VIP') = 0 AND (STRCMP(diaChi, 'Quy Nhơn') = 0 OR STRCMP(diaChi, 'Tuy Phước')); 
+
+-- 5
+SELECT COUNT(*) FROM hoadon WHERE MONTH(ngayLapHD) = 8;
+
+-- 6
+SELECT * FROM hanghoa WHERE dongia >= 20000 AND dongia <= 50000;
+
+-- 7
+SELECT * FROM chitiethd WHERE soluong > 10;
+
+-- 8
+SELECT cthh.id_hoadon, cthh.id_hanghoa, hh.tenH, hh.dongia, cthh.soluong, (cthh.soluong * hh.dongia) AS 'thành tiền'
+FROM chitiethd cthh JOIN hanghoa hh ON cthh.id_hanghoa = hh.id WHERE cthh.id_hoadon = 1;
+
+-- 9
+SELECT cthh.id_hoadon, cthh.id_hanghoa, hh.tenH, hh.dongia, cthh.soluong, (cthh.soluong * hh.dongia) AS 'thanh tien'
+FROM chitiethd cthh JOIN hanghoa hh ON cthh.id_hanghoa = hh.id WHERE (cthh.soluong * hh.dongia) >= 1000000 AND (cthh.soluong * hh.dongia) <= 2000000;
+
+-- 10
+SELECT DISTINCT(kh.id), kh.tenKH, kh.diaChi, kh.dienThoai, kh.email, kh.loaiKH
+FROM khachhang kh JOIN hoadon hd ON kh.id = hd.id_khachhang WHERE MONTH(hd.ngayLapHD) != 6;
+
+-- 11
+SELECT hd.id AS 'ma hoa don', hd.ngayLapHD, hd.id_khachhang, hh.tenH, hh.dongia, cthd.soluong, (cthd.soluong * hh.dongia) AS 'thanh tien'
+FROM chitiethd cthd
+JOIN hoadon hd ON cthd.id_hoadon = hd.id
+JOIN hanghoa hh ON cthd.id_hanghoa = hh.id 
+WHERE MONTH(hd.ngayLapHD) = 6;
+
+-- 12
+SELECT DISTINCT(hh.id), hh.tenH, hh.donViTinh, hh.dongia
+FROM chitiethd cthd
+JOIN hoadon hd ON cthd.id_hoadon = hd.id
+JOIN hanghoa hh ON cthd.id_hanghoa = hh.id;
+
+-- 13
+CREATE VIEW view_layThanhTien AS
+	SELECT cthd.id_hoadon, (cthd.soluong * hh.dongia) AS thanhtien
+	FROM chitiethd cthd
+	JOIN hanghoa hh ON cthd.id_hanghoa = hh.id;
+
+CREATE VIEW view_layTongTienMoiHoaDon AS
+	SELECT id_hoadon, SUM(thanhtien) AS tongtien 
+	FROM view_layThanhTien GROUP BY id_hoadon;
+
+SELECT hd.id, hd.ngayLapHD, kh.tenKH, kh.diaChi, tongtien
+	FROM view_layTongTienMoiHoaDon tt
+	JOIN hoadon hd ON tt.id_hoadon = hd.id
+	JOIN khachhang kh ON hd.id_khachhang = kh.id
+	WHERE tongtien = (SELECT MIN(tongtien) FROM view_layTongTienMoiHoaDon);
+
+-- 14
+CREATE VIEW view_layIdKhachVaSoLuongHoaDon AS
+	SELECT id_khachhang, COUNT(id_khachhang) AS soluonghoadon FROM hoadon GROUP BY id_khachhang;
+
+SELECT kh.id, kh.tenKH, kh.diaChi, kh.dienThoai, kh.email, kh.loaiKH, kh.ngaySinh, kh.gioiTinh
+	FROM khachhang kh 
+		JOIN hoadon hd ON kh.id = hd.id_khachhang
+		JOIN view_layIdKhachVaSoLuongHoaDon slhd ON kh.id = slhd.id_khachhang
+		WHERE slhd.soluonghoadon = (SELECT MAX(soluonghoadon) FROM view_layIdKhachVaSoLuongHoaDon)
+		GROUP BY kh.id;
+
+-- 15
+CREATE VIEW view_laySoSoLanMuaTheoIdHang AS
+	SELECT id_hanghoa, COUNT(id_hanghoa) AS solanmua FROM chitiethd GROUP BY id_hanghoa;
+	
+SELECT hh.id, hh.tenH, hh.donViTinh, hh.dongia
+FROM hanghoa hh
+	JOIN view_laySoSoLanMuaTheoIdHang slm ON hh.id = slm.id_hanghoa
+	WHERE slm.solanmua = (SELECT MAX(solanmua) FROM view_laySoSoLanMuaTheoIdHang);
