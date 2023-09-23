@@ -1,0 +1,171 @@
+CREATE DATABASE cozastore1;
+USE cozastore1;
+
+CREATE TABLE carousel (
+	id int auto_increment,
+	image varchar(255),
+	title varchar(30),
+	content varchar(100),
+	id_category int,
+	
+	primary key(id)
+);
+
+CREATE TABLE category (
+	id int auto_increment,
+	name varchar(30),
+	
+	primary key(id)
+);
+
+CREATE TABLE size (
+	id int auto_increment,
+	name varchar(10),
+	
+	primary key(id)
+);
+
+CREATE TABLE color (
+	id int auto_increment,
+	name varchar(30),
+	
+	primary key(id)
+);
+
+CREATE TABLE product (
+	id int auto_increment,
+	name varchar(100),
+	price decimal(12, 2),
+	description text,
+	quantity int,
+	id_size int,
+	id_color int,
+	id_category int,
+	
+	primary key(id)
+);
+
+CREATE TABLE image (
+	id int auto_increment,
+	image varchar(500),
+	id_product int,
+	
+	primary key(id)
+);
+
+CREATE TABLE user(
+	id int auto_increment,
+	username varchar(255),
+	password varchar(255),
+	email varchar(255),
+	
+	primary key(id)
+);
+
+CREATE TABLE cart(
+	id int auto_increment,
+	quantity int,
+	id_product int,
+	id_user int,
+	
+	primary key(id)
+);
+
+CREATE TABLE `order`(
+	id int auto_increment,
+	create_date datetime DEFAULT CURRENT_TIMESTAMP,
+	id_status int,
+	id_user int,
+	
+	primary key(id)
+);
+
+CREATE TABLE status (
+	id int auto_increment,
+	name varchar(255),
+	
+	primary key(id)
+);
+
+CREATE TABLE product_order (
+	id_product int,
+	id_order int,
+	quantity int,
+	price decimal(12, 2),
+	
+	primary key(id_product, id_order)
+);
+
+CREATE TABLE blog (
+	id int auto_increment,
+	title varchar(255),
+	image varchar(255),
+	content text,
+	create_date datetime DEFAULT CURRENT_TIMESTAMP,
+	id_user int,
+	
+	primary key(id)
+);
+
+CREATE TABLE tag (
+	id int auto_increment,
+	name varchar(255),
+	create_date datetime DEFAULT CURRENT_TIMESTAMP,
+	
+	primary key(id)
+);
+
+CREATE TABLE blog_tag (
+	id_blog int,
+	id_tag int,
+	create_date datetime DEFAULT CURRENT_TIMESTAMP,
+	
+	primary key(id_blog, id_tag)
+);
+
+CREATE TABLE comment (
+	id int auto_increment,
+	content text,
+	email varchar(255),
+	name varchar(255),
+	create_date datetime DEFAULT CURRENT_TIMESTAMP,
+	id_blog int,
+	
+	primary key(id)
+);
+
+CREATE TABLE wish_list(
+	id int auto_increment,
+	quantity int,
+	id_product int,
+	id_user int,
+	
+	primary key(id)
+);
+
+ALTER TABLE carousel ADD CONSTRAINT FK_id_category_carousel FOREIGN KEY(id_category) REFERENCES category(id);
+
+ALTER TABLE product ADD CONSTRAINT FK_id_size_product FOREIGN KEY(id_size) REFERENCES `size`(id);
+ALTER TABLE product ADD CONSTRAINT FK_id_color_product FOREIGN KEY(id_color) REFERENCES color(id);
+ALTER TABLE product ADD CONSTRAINT FK_id_category_product FOREIGN KEY(id_category) REFERENCES category(id);
+
+ALTER TABLE image ADD CONSTRAINT FK_id_product_image FOREIGN KEY(id_product) REFERENCES product(id);
+
+ALTER TABLE `order` ADD CONSTRAINT FK_id_status_order FOREIGN KEY(id_status) REFERENCES status(id);
+ALTER TABLE `order` ADD CONSTRAINT FK_id_user_order FOREIGN KEY(id_user) REFERENCES user(id);
+
+ALTER TABLE cart ADD CONSTRAINT FK_id_product_cart FOREIGN KEY(id_product) REFERENCES product(id);
+ALTER TABLE cart ADD CONSTRAINT FK_id_user_cart FOREIGN KEY(id_user) REFERENCES user(id);
+
+ALTER TABLE product_order ADD CONSTRAINT FK_id_product_product_order FOREIGN KEY(id_product) REFERENCES product(id);
+ALTER TABLE product_order ADD CONSTRAINT FK_id_order_product_order FOREIGN KEY(id_order) REFERENCES `order`(id);
+
+ALTER TABLE blog ADD CONSTRAINT FK_id_user_blog FOREIGN KEY(id_user) REFERENCES user(id);
+
+ALTER TABLE blog_tag ADD CONSTRAINT FK_id_blog_blog_tag FOREIGN KEY(id_blog) REFERENCES blog(id);
+ALTER TABLE blog_tag ADD CONSTRAINT FK_id_tag_blog_tag FOREIGN KEY(id_tag) REFERENCES tag(id);
+
+ALTER TABLE comment ADD CONSTRAINT FK_id_blog_comment FOREIGN KEY(id_blog) REFERENCES blog(id);
+
+ALTER TABLE wish_list ADD CONSTRAINT FK_id_product_wish_list FOREIGN KEY(id_product) REFERENCES product(id);
+ALTER TABLE wish_list ADD CONSTRAINT FK_id_user_wish_list FOREIGN KEY(id_user) REFERENCES user(id);
