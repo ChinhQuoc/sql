@@ -1,0 +1,34 @@
+CREATE PROCEDURE sp_createJob(IN name varchar(255), IN content text, IN startDate date, IN endDate date, IN id_project int, IN id_user int)
+BEGIN
+	DECLARE idJob int DEFAULT 0;
+	START TRANSACTION;
+		INSERT INTO Job(name, content, startDate, endDate, id_project) VALUES(name, content, startDate, endDate, id_project);
+		Select LAST_INSERT_ID() INTO idJob;
+		INSERT INTO Project_Users(id_user, id_project, createDate) VALUES(id_user, id_project, CURRENT_DATE);
+		INSERT INTO Job_Status_Users(id_user, id_status, id_job, createDate) VALUES(id_user, 1, idJob, CURRENT_DATE);
+	COMMIT;
+	SELECT idJob;
+END
+
+CREATE PROCEDURE sp_updateJob(IN id int, IN name varchar(255), IN content text, IN startDate date, IN endDate date, IN id_project int, IN id_user int, IN ex_id_project int, IN ex_id_user int)
+BEGIN
+	DECLARE isSuccess BOOLEAN DEFAULT FALSE;
+	START TRANSACTION;
+		UPDATE Job j SET j.name = name, j.content = content, j.startDate = startDate, j.endDate = endDate, j.id_project = id_project WHERE j.id = id;
+		UPDATE Project_Users pu SET pu.id_user = id_user, pu.id_project = id_project WHERE pu.id_user = ex_id_user AND pu.id_project = ex_id_project;
+		UPDATE Job_Status_Users jsu SET jsu.id_user = id_user WHERE jsu.id_job = id;
+		SET isSuccess = TRUE;
+	COMMIT;
+	SELECT isSuccess;
+END
+
+CREATE PROCEDURE sp_deleteJob(IN id INT, IN idStatus INT, IN idUser INT)
+BEGIN
+	DECLARE isSuccess BOOLEAN DEFAULT FALSE;
+	START TRANSACTION;
+		DELETE FROM Job j WHERE j.id = id;
+		DELETE FROM Job_Status_Users jsu WHERE jsu.id_job = id AND jsu.id_user = idUser AND jsu.id_status = idStatus;
+		SET isSuccess = TRUE;
+	COMMIT;
+	SELECT isSuccess;
+END
